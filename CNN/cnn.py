@@ -20,10 +20,12 @@ model.add(layers.Dense(10))
 model.summary()
 model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-              metrics=['accuracy'])
-
-history = model.fit(train_images, train_labels, epochs=10,
-                    validation_data=(test_images, test_labels))
+              metrics=['accuracy'],
+              )
+callback = tf.keras.callbacks.EarlyStopping(monitor = 'loss',patience=3)
+history = model.fit(train_images, train_labels, epochs=200,
+                    validation_data=(test_images, test_labels),
+                    callbacks = [callback])
 plt.plot(history.history['accuracy'], label='accuracy')
 plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
 plt.xlabel('Epoch')
